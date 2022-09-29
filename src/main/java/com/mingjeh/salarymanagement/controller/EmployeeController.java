@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable; 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.mingjeh.salarymanagement.common.CSVHelper;
 import com.mingjeh.salarymanagement.model.Employee;
 import com.mingjeh.salarymanagement.service.EmployeeService;  
 
@@ -70,7 +72,30 @@ public class EmployeeController {
 	
 	// POST /users/upload
 	@PostMapping(path = "/upload")
-	public String uploadUsers(@RequestParam(value = "name", defaultValue = "World") String name) {
-		return String.format("Hello %s!", name);
+	public ResponseEntity<Map<String, Object>> uploadUsers(@RequestParam("file") MultipartFile file) {
+		try {
+			String message = "";
+			
+			if (CSVHelper.hasCSVFormat(file)) {
+				try {
+					employeeService.saveEmployeeCSV(file);
+
+					message = "Uploaded the file successfully: " + file.getOriginalFilename();
+					//return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+				} catch (Exception e) {
+	    	  		message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+	    	  		//return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+				}
+		    }
+			
+			// Construct response
+			Map<String, Object> response = new HashMap<>();
+			response.put("result", "success");
+						
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		catch(Exception ex) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

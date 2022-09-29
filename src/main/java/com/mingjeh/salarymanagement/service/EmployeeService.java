@@ -1,4 +1,5 @@
 package com.mingjeh.salarymanagement.service;
+import java.io.IOException;
 import java.util.ArrayList;  
 import java.util.List;  
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.mingjeh.salarymanagement.common.CSVHelper;
 import com.mingjeh.salarymanagement.model.Employee;
 import com.mingjeh.salarymanagement.repository.EmployeeRepository;  
 
@@ -64,5 +67,14 @@ public class EmployeeService {
             sorts.add(new Sort.Order(direction, sort));
         }
         return sorts;
+    }
+    
+    public void saveEmployeeCSV(MultipartFile file) {
+		try {
+			List<Employee> employees = CSVHelper.csvToEmployeeModel(file.getInputStream());
+			employeeRepository.saveAll(employees);
+        } catch (IOException e) {
+        	throw new RuntimeException("fail to store csv data: " + e.getMessage());
+        }
     }
 }
