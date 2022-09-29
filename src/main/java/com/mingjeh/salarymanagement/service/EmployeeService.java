@@ -3,10 +3,12 @@ import java.io.IOException;
 import java.util.ArrayList;  
 import java.util.List;  
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,12 +71,14 @@ public class EmployeeService {
         return sorts;
     }
     
-    public void saveEmployeeCSV(MultipartFile file) {
+    public void saveEmployeeCSV(MultipartFile file) throws Exception {
 		try {
 			List<Employee> employees = CSVHelper.csvToEmployeeModel(file.getInputStream());
 			employeeRepository.saveAll(employees);
-        } catch (IOException e) {
-        	throw new RuntimeException("fail to store csv data: " + e.getMessage());
+        } catch (DataIntegrityViolationException e) {
+        	throw new Exception("Unable to upload and save data due to duplicated values for id or login");
+        } catch (Exception e) {
+        	throw e;
         }
     }
 }

@@ -2,7 +2,8 @@ package com.mingjeh.salarymanagement.model;
 import javax.persistence.Column;  
 import javax.persistence.Entity;  
 import javax.persistence.Id;  
-import javax.persistence.Table;  
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;  
 
 @Entity  
 @Table
@@ -13,7 +14,7 @@ public class Employee {
 	private String id;  
 	@Column  
 	private String name;  
-	@Column  
+	@Column(unique=true)
 	private String login;  
 	@Column  
 	private double salary;

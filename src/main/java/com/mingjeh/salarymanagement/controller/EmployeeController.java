@@ -73,29 +73,27 @@ public class EmployeeController {
 	// POST /users/upload
 	@PostMapping(path = "/upload")
 	public ResponseEntity<Map<String, Object>> uploadUsers(@RequestParam("file") MultipartFile file) {
+		String message = "";
+		Map<String, Object> response = new HashMap<>();
+		
 		try {
-			String message = "";
-			
 			if (CSVHelper.hasCSVFormat(file)) {
-				try {
-					employeeService.saveEmployeeCSV(file);
+				employeeService.saveEmployeeCSV(file);
 
-					message = "Uploaded the file successfully: " + file.getOriginalFilename();
-					//return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-				} catch (Exception e) {
-	    	  		message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-	    	  		//return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-				}
-		    }
-			
-			// Construct response
-			Map<String, Object> response = new HashMap<>();
-			response.put("result", "success");
-						
-			return new ResponseEntity<>(response, HttpStatus.OK);
+				message = "Uploaded the file successfully: " + file.getOriginalFilename();
+				response.put("result", "success");
+				response.put("message", message);
+				
+				return new ResponseEntity<>(response, HttpStatus.OK);
+			}
 		}
 		catch(Exception ex) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			message = "Could not upload the file. Error: " + ex.getMessage();
+			response.put("result", "failed");
+	  		response.put("message", message);
+	  		
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
+		return null;
 	}
 }

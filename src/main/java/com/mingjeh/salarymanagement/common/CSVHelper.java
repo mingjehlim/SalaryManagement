@@ -27,7 +27,7 @@ public class CSVHelper {
 		return true;
 	}
 
-	public static List<Employee> csvToEmployeeModel(InputStream is) {
+	public static List<Employee> csvToEmployeeModel(InputStream is) throws Exception {
 	    try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 	    		CSVParser csvParser = new CSVParser(fileReader,
 	            CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) 
@@ -35,20 +35,42 @@ public class CSVHelper {
 	    	List<Employee> employees = new ArrayList<Employee>();
 	    	List<CSVRecord> csvRecords = csvParser.getRecords();
 	    	
+	    	// Validate empty file
+	    	if (csvRecords.isEmpty()) {
+	    		throw new Exception("Csv file is empty");
+	    	}
+	    	
+	    	
 	    	for (CSVRecord csvRecord : csvRecords) {
-	    		Employee employee = new Employee(
-		              csvRecord.get("id"),
-		              csvRecord.get("name"),
-		              csvRecord.get("login"),
-		              Double.parseDouble(csvRecord.get("salary"))
-	            );
+	    		// Check comment
+	    		if (csvRecord.get(0).startsWith("#")) {
+	    			continue;
+	    		}
+	    		
+	    		// Validate num of cols
+	    		if (csvRecord.size() != 4) {
+	    			throw new Exception("Csv file has wrong number of columns");
+	    		}
+	    		
+	    		String id = csvRecord.get("id");
+	    		String name = csvRecord.get("name");
+				String login = csvRecord.get("login");
+				Double salary = Double.parseDouble(csvRecord.get("salary"));
+	    		
+	    		if (salary < 0.0) {
+	    			throw new Exception("One or more salaries is less than 0.0");
+	    		}
+	    		
+	    		Employee employee = new Employee(id, name, login, salary);
 	
     	  		employees.add(employee);
 	      }
 	
 	      return employees;
-	    } catch (IOException ex) {
-	      throw new RuntimeException("fail to parse CSV file: " + ex.getMessage());
-	    }
+	    } catch (NumberFormatException e) {
+			throw new Exception("Invalid salary format");
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 }
