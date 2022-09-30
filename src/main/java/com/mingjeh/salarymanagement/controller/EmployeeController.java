@@ -72,7 +72,7 @@ public class EmployeeController {
 	
 	// POST /users/upload
 	@PostMapping(path = "/upload")
-	public ResponseEntity<Map<String, Object>> uploadUsers(@RequestParam("file") MultipartFile file) {
+	public ResponseEntity<Map<String, Object>> uploadUsers(@RequestBody MultipartFile file) {
 		String message = "";
 		Map<String, Object> response = new HashMap<>();
 		
@@ -86,6 +86,9 @@ public class EmployeeController {
 				
 				return new ResponseEntity<>(response, HttpStatus.OK);
 			}
+			else {
+				throw new Exception("This is not a CSV file");
+			}
 		}
 		catch(Exception ex) {
 			message = "Could not upload the file. Error: " + ex.getMessage();
@@ -94,6 +97,5 @@ public class EmployeeController {
 	  		
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
-		return null;
 	}
 }
