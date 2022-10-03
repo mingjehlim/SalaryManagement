@@ -22,9 +22,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFileUploaderModule } from "angular-file-uploader";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -57,9 +63,15 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSelectModule,
     MatRadioModule,
     MatCardModule,
+    MatGridListModule,
     ReactiveFormsModule,
     AngularFileUploaderModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    HttpClientModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
