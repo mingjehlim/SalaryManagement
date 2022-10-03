@@ -122,7 +122,7 @@ export class HttpDatabase {
     maxSalary = maxSalary == 0 ? 100000 : maxSalary;
 
     const href = 'http://localhost:8080/users';
-    const requestUrl = `${href}?minSalary=${minSalary}&maxSalary=${maxSalary}&offset=${page+1}&limit=${pageSize}&sort=${sortSymbol}${sort}`;
+    const requestUrl = `${href}?minSalary=${minSalary}&maxSalary=${maxSalary}&offset=${page}&limit=${pageSize}&sort=${sortSymbol}${sort}`;
 
     return this._httpClient.get<EmployeeData>(requestUrl);
   }
