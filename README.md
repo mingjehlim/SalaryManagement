@@ -2,7 +2,7 @@
 
 Pre-requisite - the following should be present in the computer:
 - Java JDK
-- Spring 
+- Spring & Spring boot
 - Maven
 - NodeJs
 - Angular
@@ -14,6 +14,7 @@ Pre-requisite - the following should be present in the computer:
 4. User Story 2 can be viewed in the "View employees" page
 5. User Story 3 contains viewing an employee's details and deleting an employee 
 6. Automated testing can be done to the Back end endpoints, hosted at url http://localhost:8080
+7. To access the H2 in memory database console, navigate to http://localhost:8080/h2-console. Click connect with the default credentials to login to the console
 
 Back End
 1. At project root folder (```/SalaryManagement```), run command : ```mvn spring-boot:run```
