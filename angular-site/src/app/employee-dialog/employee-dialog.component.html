@@ -1,0 +1,33 @@
+<h3>Employee</h3>
+
+<p>
+    <mat-form-field appearance="fill">
+        <mat-label>Id</mat-label>
+        <input matInput value="{{model.id}}">
+    </mat-form-field>
+</p>
+<p>
+    <mat-form-field appearance="fill">
+        <mat-label>Login</mat-label>
+        <input matInput value="{{model.login}}">
+    </mat-form-field>
+</p>
+
+<p>
+    <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput value="{{model.name}}">
+    </mat-form-field>
+</p>
+
+<p>
+    <mat-form-field appearance="fill">
+        <mat-label>Salary</mat-label>
+        <input matInput value="{{model.salary}}">
+    </mat-form-field>
+</p>
+
+<div mat-dialog-actions>
+    <button mat-button>Cancel</button>
+    <button mat-button cdkFocusInitial (click)="save()">Save</button>
+</div>

@@ -37,7 +37,7 @@ public class EmployeeService {
 		return employeeRepository.findById(id).get();  
 	}  
 
-	public void saveOrUpdate(Employee employee) {
+	public void save(Employee employee) {
 		employeeRepository.save(employee);		
 	}
 	

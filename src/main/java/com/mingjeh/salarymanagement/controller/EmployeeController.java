@@ -10,7 +10,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;  
-import org.springframework.web.bind.annotation.GetMapping;  
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;  
 import org.springframework.web.bind.annotation.PutMapping;  
 import org.springframework.web.bind.annotation.RequestBody; 
@@ -100,6 +101,71 @@ public class EmployeeController {
 	  		response.put("message", message);
 	  		
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	// POST /users - Create User
+	@PostMapping(path = "/")
+	public ResponseEntity<Map<String, Object>> create(@RequestBody Employee model) {
+		try {
+			employeeService.save(model);
+			
+			// Construct response
+			Map<String, Object> response = new HashMap<>();
+			
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		catch(Exception ex) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	// GET /users/{id} - Read user
+	@GetMapping(path = "/{id}")
+	public ResponseEntity<Map<String, Object>> get(@PathVariable(value = "id") String id) {
+		try {
+			Employee employee = employeeService.getUserById(id);
+			
+			// Construct response
+			Map<String, Object> response = new HashMap<>();
+			response.put("result", employee);
+			
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		catch(Exception ex) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	// PATCH /users/{id} - Update user
+	@PatchMapping(path = "/{id}")
+	public ResponseEntity<Map<String, Object>> update(@PathVariable(value = "id") String id, @RequestBody Employee model) {
+		try {
+			employeeService.update(model, id);
+			
+			// Construct response
+			Map<String, Object> response = new HashMap<>();
+			
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		catch(Exception ex) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	// DELETE /users/{id} - Delete user
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity<Map<String, Object>> delete(@PathVariable(value = "id") String id) {
+		try {
+			employeeService.delete(id);
+			
+			// Construct response
+			Map<String, Object> response = new HashMap<>();
+			
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		catch(Exception ex) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
 }

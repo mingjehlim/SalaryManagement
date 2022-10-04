@@ -10,10 +10,12 @@ import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mingjeh.salarymanagement.model.Employee;
 
+@Component
 public class CSVHelper {
 	public static String TYPE = "text/csv";
 	static String[] HEADERs = { "Id", "Title", "Description", "Published" };

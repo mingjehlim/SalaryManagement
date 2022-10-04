@@ -30,8 +30,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
-
+import { EmployeeDialogComponent } from './employee-dialog/employee-dialog.component';
+import { TextDialogComponent } from './text-dialog/text-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { HttpClientModule } from '@angular/common/http';
     UploadPageComponent,
     EmployeeDataPageComponent,
     NotFoundPageComponent,
-    UploadFieldComponent
+    UploadFieldComponent,
+    EmployeeDialogComponent,
+    TextDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -71,9 +75,15 @@ import { HttpClientModule } from '@angular/common/http';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDialogModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    },
+    EmployeeDataPageComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
