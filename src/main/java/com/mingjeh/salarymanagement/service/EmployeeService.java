@@ -22,6 +22,9 @@ public class EmployeeService {
 	@Autowired  
 	EmployeeRepository employeeRepository;  
 	
+	@Autowired  
+	CSVHelper csvHelper;
+	
 	// Generic methods
 	public List<Employee> getAllUsers() {
 		List<Employee> employees = new ArrayList<Employee>();  
@@ -73,7 +76,7 @@ public class EmployeeService {
     
     public void saveEmployeeCSV(MultipartFile file) throws Exception {
 		try {
-			List<Employee> employees = CSVHelper.csvToEmployeeModel(file.getInputStream());
+			List<Employee> employees = csvHelper.csvToEmployeeModel(file.getInputStream());
 			employeeRepository.saveAll(employees);
         } catch (DataIntegrityViolationException e) {
         	throw new Exception("Unable to upload and save data due to duplicated values for id or login");

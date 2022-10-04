@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;  
 import org.springframework.web.bind.annotation.RequestBody; 
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable; 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +30,9 @@ import com.mingjeh.salarymanagement.service.EmployeeService;
 public class EmployeeController {
 	@Autowired  
 	EmployeeService employeeService;
+	
+	@Autowired  
+	CSVHelper csvHelper;
 	
 	// GET /users
 	@GetMapping(path = "")
@@ -66,7 +70,7 @@ public class EmployeeController {
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 		catch(Exception ex) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -77,7 +81,7 @@ public class EmployeeController {
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
-			if (CSVHelper.hasCSVFormat(file)) {
+			if (csvHelper.hasCSVFormat(file)) {
 				employeeService.saveEmployeeCSV(file);
 
 				message = "Uploaded the file successfully: " + file.getOriginalFilename();

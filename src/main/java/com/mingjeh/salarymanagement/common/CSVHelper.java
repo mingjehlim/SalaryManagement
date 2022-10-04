@@ -18,7 +18,7 @@ public class CSVHelper {
 	public static String TYPE = "text/csv";
 	static String[] HEADERs = { "Id", "Title", "Description", "Published" };
 
-	public static boolean hasCSVFormat(MultipartFile file) {
+	public boolean hasCSVFormat(MultipartFile file) {
 
 		if (!TYPE.equals(file.getContentType())) {
 			return false;
@@ -27,7 +27,7 @@ public class CSVHelper {
 		return true;
 	}
 
-	public static List<Employee> csvToEmployeeModel(InputStream is) throws Exception {
+	public List<Employee> csvToEmployeeModel(InputStream is) throws Exception {
 	    try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 	    		CSVParser csvParser = new CSVParser(fileReader,
 	            CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) 
