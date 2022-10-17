@@ -48,6 +48,14 @@ export class EmployeeDataPageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.refreshData();
+  }
+
+  applyFilter(event: Event) {
+    this.refreshData();
+  }
+
+  refreshData() {
     // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
@@ -93,13 +101,36 @@ export class EmployeeDataPageComponent implements AfterViewInit {
       .subscribe(data => (this.data = data));
   }
 
-  applyFilter(event: Event) {
-    this.ngAfterViewInit();
+  addData(){
+    // let data = {} as Employee;
+    const dialogRef = this.dialog.open(EmployeeDialogComponent, {
+      data: { 
+        data: {}, 
+        dialogType: 'create'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.refreshData();
+      // if (result) {
+      //   console.log("close after saving: " + result);
+      // }
+    });
   }
 
   find(data : Employee) {
-    this.dialog.open(EmployeeDialogComponent, {
-        data
+    const dialogRef = this.dialog.open(EmployeeDialogComponent, {
+        data: { 
+          employee: data, 
+          dialogType: 'update'
+        }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.refreshData();
+      // if (result) {
+      //   console.log("close after saving: " + result);
+      // }
     });
   }
 

@@ -1,33 +1,36 @@
-<h3>Employee</h3>
+<h3>{{this.label}}</h3>
 
 <p>
     <mat-form-field appearance="fill">
         <mat-label>Id</mat-label>
-        <input matInput value="{{model.id}}">
+        <input matInput *ngIf="this.data.dialogType == 'create'" [(ngModel)]="model.id">
+        <input matInput *ngIf="this.data.dialogType == 'update'" disabled [(ngModel)]="model.id">
     </mat-form-field>
 </p>
 <p>
     <mat-form-field appearance="fill">
         <mat-label>Login</mat-label>
-        <input matInput value="{{model.login}}">
+        <input matInput [(ngModel)]="model.login">
     </mat-form-field>
 </p>
 
 <p>
     <mat-form-field appearance="fill">
         <mat-label>Name</mat-label>
-        <input matInput value="{{model.name}}">
+        <input matInput [(ngModel)]="model.name">
     </mat-form-field>
 </p>
 
 <p>
     <mat-form-field appearance="fill">
         <mat-label>Salary</mat-label>
-        <input matInput value="{{model.salary}}">
+        <input matInput [(ngModel)]="model.salary">
     </mat-form-field>
 </p>
 
 <div mat-dialog-actions>
-    <button mat-button>Cancel</button>
-    <button mat-button cdkFocusInitial (click)="save()">Save</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+
+    <button mat-button cdkFocusInitial *ngIf="this.data.dialogType == 'update'" (click)="save()">Save</button>
+    <button mat-button cdkFocusInitial *ngIf="this.data.dialogType == 'create'" (click)="create()">Create</button>
 </div>
